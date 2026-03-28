@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>BaBiQ888's Tech Space</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="BaBiQ888's personal blog and tech space">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  
+  <!-- 采用经典的 Vue 极简亮色主题作为底包 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  
+  <!-- 引入日夜间切换主题插件的核心样式 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
+  
+  <style>
+    /* 微调右侧滚动条效果使其更顺滑优雅 */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { border-radius: 4px; background: rgba(0,0,0,0.2); }
+    /* 屏蔽 Docsify 渲染 Mermaid 时的透明背景冲突使得白底更舒适 */
+    .mermaid { background-color: transparent !important; }
+  </style>
+</head>
+<body>
+  <!-- 极简首屏加载效果 -->
+  <div id="app">🏃‍♂️ 正在构建现代化知识库，请稍候...</div>
+  
+  <!-- 导入 Mermaid 引擎（用于支持您文章中的图表） -->
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    window.mermaid = mermaid;
+  </script>
+
+  <script>
+    // 注入 Docsify 内核引擎配置
+    window.$docsify = {
+      name: 'BaBiQ888\'s Space', // 主页左上角的名字
+      repo: 'https://github.com/BaBiQ888/BaBiQ888.github.io', // 右上角的小挂件
+      
+      // 开启路由和侧边栏
+      loadSidebar: true,
+      subMaxLevel: 3, // 自动提取 Markdown H3 级标题作为子目录
+      
+      // 开启顶部导航栏
+      loadNavbar: true,
+      
+      // 开启路由的哈希模式
+      routerMode: 'hash',
+      
+      // 自动帮屏幕滚动到最顶端
+      auto2top: true,
+
+      // 配置全局搜索
+      search: {
+        maxAge: 86400000, // 搜索索引过期时间戳 (1天)
+        paths: 'auto',
+        placeholder: '🔍 探索全站知识...',
+        noData: '未找到相关文章记录 😢',
+        depth: 4, // 检索标题的粒度
+      },
+      
+      // 核心要求：暗黑/明亮 主题引擎的配置
+      darklightTheme: {
+        defaultTheme: 'light', // 按照要求，全局默认清爽明亮色调
+        siteFont: "Inter, 'Helvetica Neue', Arial, sans-serif",
+        light: {
+          accent: '#42b983', // 亮色下的超链接绿
+        },
+        dark: {
+          accent: '#42b983', // 暗黑下的超链接绿
+        }
+      }
+    }
+  </script>
+  
+  <!-- 1. Docsify 运行时容器框架 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  
+  <!-- 2. 全量现代插件生态 (Plugins) -->
+  <!-- 静态全站搜索引擎 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <!-- 支持图片鼠标点击灯箱放大 (Zoom Image) -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <!-- 为全站代码块右上角添加 Copy Code (一键复制) -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <!-- 允许解析您刚更新的复杂 Mermaid 图形结构 -->
+  <script src="//unpkg.com/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
+  <!-- 日月全自动切换器核心脚本 (UI Toggler Switch) -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js" type="text/javascript"></script>
+</body>
+</html>
