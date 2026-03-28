@@ -6,6 +6,8 @@ category: "Backend / Smart Contracts"
 
 # 基于 FHEVM 的全同态加密 ERC20 隐私代币实现
 
+![Cover Image](../../assets/images/fhe_erc20_cover.png)
+
 在公开透明的区块链网络上，保护用户的资产隐私一直是个难点。近期，我借助 Zama 推出的 FHEVM 架构，开发了一款名为 **fhe-erc20** 的隐私代币项目。该项目展示了如何通过全同态加密（FHE）彻底隐藏代币的余额和转账明细，并包含一套去中心化桥接（Bridge）系统。
 
 GitHub 项目开源地址：[BaBiQ888/fhe-erc20](https://github.com/BaBiQ888/fhe-erc20)
@@ -27,6 +29,32 @@ GitHub 项目开源地址：[BaBiQ888/fhe-erc20](https://github.com/BaBiQ888/fhe
 
 ### 2. 标准 ↔ 隐私 Bridge
 为了解决流动性问题，我在项目中开发了一套桥合约，允许用户将现有的明文 ERC20（如标准的 USDT）和 Confidential 资产（如 fhUSDT）进行 1:1 锚定：
+
+```mermaid
+sequenceDiagram
+    participant User as 用户 (User)
+    participant StandardToken as 明文 USDT
+    participant Bridge as Bridge 网关
+    participant FheToken as 私密 fhUSDT
+    
+    rect rgb(200, 255, 200)
+    Note over User,FheToken: 存款流程 (Deposit)
+    User->>StandardToken: Approve 授权额度
+    User->>Bridge: deposit(明文额度)
+    Bridge->>StandardToken: transferFrom(存入网关金库)
+    Bridge->>FheToken: mint(加密后铸造到用户地址)
+    FheToken-->>User: 返回已被 FHE 加密的余额状态
+    end
+    
+    rect rgb(255, 200, 200)
+    Note over User,FheToken: 提款流程 (Withdraw)
+    User->>Bridge: withdraw(传入被公钥加密后的密文额度)
+    Bridge->>FheToken: burn(燃烧该 FHE 金额)
+    Bridge->>StandardToken: transfer(通过网关解锁发还)
+    StandardToken-->>User: 获得明文 USDT
+    end
+```
+
 - **存入 (Deposit)**: 锁定明文 USDT，并通过 Bridge 将等额数量用 FHE 算法机密化为你地址下生成的 fhUSDT。
 - **退出 (Withdraw)**: 在私密世界中发起 Withdraw，将隐藏状态下的代币燃烧（Burn），智能合约验证通过后发还明文的原始代币。
 

@@ -6,6 +6,8 @@ category: "AI & Data"
 
 # OmniOps Agent：企业级多模态自动化运维机器人
 
+![Cover Image](../../assets/images/omniops_cover.png)
+
 在如今这种高并发且动辄告警风暴的微服务环境中，将一切排障动作委派给 AI 已经是一种不可逆的趋势。为此，我设计了 **OmniOps Agent**，一款专为生产环境与复杂现网护航的**企业级多模态自动化运维智能体**。
 
 GitHub 原创仓库地址：[BaBiQ888/OmniOps-Agent](https://github.com/BaBiQ888/OmniOps-Agent)
@@ -31,6 +33,25 @@ OmniOps Agent **彻底抛弃了 LangChain**，这是一款完全由纯粹的 Nod
 2. **真无服务架构回收**: 对外的 Node 进程甚至会自动关闭清空宿主内存！不浪费资源枯等用户！
 3. **企微交互拦截卡片**: 给主管的手机推送企业微信消息，显示它的全盘思考依据与想要调用的具体 `Payload` 和 `Action` 命令。
 4. **异步唤醒/死信防暴**: 当主管点击企微同意后，进程依靠 Webhook 带着状态凭据继续执行工作。如果长达半小时没有人同意，系统内的 BullMQ 看门狗机制将会判定“审批超时废弃”，Agent 则体面退群并自动流转记录到后台中。
+
+```mermaid
+stateDiagram-v2
+    [*] --> Running : 正常执行
+    Running --> HighRiskDetected : 解析出高危 Tool Call (如重启, 伸缩)
+    
+    HighRiskDetected --> Pending_Approval : 进入挂起状态<br/>(进程自动暂停并释放资源)
+    Pending_Approval --> WeChat : 推送企微通知审批卡片
+    
+    WeChat --> Approved : 主管确认✅
+    WeChat --> Rejected : 主管驳回❌
+    Pending_Approval --> Timeout : BullMQ 看门狗监听 30分钟超时
+    
+    Approved --> Running : 重新拉起 Node 进程<br/>恢复上下文继续执行
+    Rejected --> Abort : 熔断丢弃处理<br/>向群回复操作已被驳回
+    Timeout --> Abort : 系统强制释放挂起锁并丢弃任务
+    
+    Abort --> [*]
+```
 
 ## 🚦 并发下的极客特性
 

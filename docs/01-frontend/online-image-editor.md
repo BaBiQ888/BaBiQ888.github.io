@@ -6,6 +6,8 @@ category: "Frontend"
 
 # 基于 React + Vite 的在线图片编辑器开发实战
 
+![Cover Image](../../assets/images/online_image_editor_cover.png)
+
 最近，我开源了一个名为 **Online-Image-Editor** 的在线图片处理工具，可以在浏览器端直接完成背景切割、透明度调整、比例缩放等功能。本项目完全通过前端技术实现，不依赖后端计算，极大地保证了用户的隐私安全及处理速度。
 
 项目的 GitHub 地址：[BaBiQ888/online-image-editor](https://github.com/BaBiQ888/online-image-editor)

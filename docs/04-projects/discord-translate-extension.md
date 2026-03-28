@@ -6,6 +6,8 @@ category: "Projects"
 
 # 项目开源：Discord 实时翻译 Chrome 浏览器插件
 
+![Cover Image](../../assets/images/discord_translate_cover.png)
+
 如果你经常混迹于各类 Web3 或开源国际社区的 Discord 频道中，不可避免地会遇到来自世界各地的语言。对于很多人而言，如果不能在应用内直接查看大段讨论的翻译信息，体验会变得相当割裂。为了解决日常刷 Discord 社区的语言阅读障碍，我开发了一款可以在原生 Web 端运行翻译的插件 —— **Discord-Translate**。
 
 开源仓库地址：[BaBiQ888/discord-translate](https://github.com/BaBiQ888/discord-translate)
