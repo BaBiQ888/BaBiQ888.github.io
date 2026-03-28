@@ -9,4 +9,6 @@
 
 ---
 
-> *记录从零探索 AI 新技术的每一天，在这里留下一篇笔记吧！*
+## 📝 文章列表
+- [FluxGraph：构建高并发的 Golang AI 智能体微生态](./fluxgraph-agent-framework.md)
+- [OmniOps Agent：企业级多模态自动化运维机器人](./omniops-agent.md)

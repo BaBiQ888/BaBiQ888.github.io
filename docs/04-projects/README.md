@@ -9,4 +9,5 @@
 
 ---
 
-> *"每一个伟大的项目，都源于一次看似不起眼的键盘敲击。快开始记录吧！"*
+## 📝 文章列表
+- [项目开源：Discord 实时翻译 Chrome 浏览器插件](./discord-translate-extension.md)
