@@ -1,6 +1,6 @@
 <!-- 这是 Docsify 左侧持久化的侧边栏导航内容 -->
-- **🏡 主页**
-  - [返回首页 README](/README.md)
+- **🏡 首页大厅**
+  - [欢迎](/home.md)
 
 - **💻 01. 前端架构与开发 (Frontend)**
   - [🧰 分类介绍](/docs/01-frontend/README.md)

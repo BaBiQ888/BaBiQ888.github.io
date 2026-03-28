@@ -10,4 +10,4 @@
 ---
 
 ## 📝 文章列表
-- [项目开源：Discord 实时翻译 Chrome 浏览器插件](./discord-translate-extension.md)
+- [项目开源：Discord 实时翻译 Chrome 浏览器插件](/docs/04-projects/discord-translate-extension.md)

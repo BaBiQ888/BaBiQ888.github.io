@@ -10,5 +10,5 @@
 ---
 
 ## 📝 文章列表
-- [FluxGraph：构建高并发的 Golang AI 智能体微生态](./fluxgraph-agent-framework.md)
-- [OmniOps Agent：企业级多模态自动化运维机器人](./omniops-agent.md)
+- [FluxGraph：构建高并发的 Golang AI 智能体微生态](/docs/03-ai-and-data/fluxgraph-agent-framework.md)
+- [OmniOps Agent：企业级多模态自动化运维机器人](/docs/03-ai-and-data/omniops-agent.md)

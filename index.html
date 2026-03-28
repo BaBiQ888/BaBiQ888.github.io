@@ -1,30 +1,59 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <title>BaBiQ888's Tech Space</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="BaBiQ888's personal blog and tech space">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  
+
   <!-- 采用经典的 Vue 极简亮色主题作为底包 -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
-  
+
   <!-- 引入日夜间切换主题插件的核心样式 -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
-  
+
+  <!-- Docsify TOC 样式 -->
+  <link rel="stylesheet" href="//unpkg.com/docsify-plugin-toc@1.3.1/dist/light.css" />
+
   <style>
     /* 微调右侧滚动条效果使其更顺滑优雅 */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-thumb { border-radius: 4px; background: rgba(0,0,0,0.2); }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
     /* 屏蔽 Docsify 渲染 Mermaid 时的透明背景冲突使得白底更舒适 */
-    .mermaid { background-color: transparent !important; }
+    .mermaid {
+      background-color: transparent !important;
+    }
+
+    /* 彻底重置夜间模式切换按钮的行为，使其作为内联元素跟随在顶部导航栏最右侧 */
+    #docsify-darklight-theme {
+      position: relative !important;
+      display: inline-block !important;
+      margin-left: 25px !important;
+      top: -2px !important;
+      /* 微调垂直对齐以匹配旁边的文字 */
+      right: 0 !important;
+      bottom: auto !important;
+      left: auto !important;
+      vertical-align: middle;
+      z-index: 1000;
+    }
   </style>
 </head>
+
 <body>
   <!-- 极简首屏加载效果 -->
   <div id="app">🏃‍♂️ 正在构建现代化知识库，请稍候...</div>
-  
+
   <!-- 导入 Mermaid 引擎（用于支持您文章中的图表） -->
   <script type="module">
     import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
@@ -35,19 +64,23 @@
   <script>
     // 注入 Docsify 内核引擎配置
     window.$docsify = {
-      name: 'BaBiQ888\'s Space', // 主页左上角的名字
+      name: 'DuanJF\'s Space', // 主页左上角的名字
       repo: 'https://github.com/BaBiQ888/BaBiQ888.github.io', // 右上角的小挂件
-      
+
+      // 启用封面页与强制独立落地分离
+      coverpage: true,
+      onlyCover: true,
+
       // 开启路由和侧边栏
       loadSidebar: true,
       subMaxLevel: 3, // 自动提取 Markdown H3 级标题作为子目录
-      
+
       // 开启顶部导航栏
       loadNavbar: true,
-      
+
       // 开启路由的哈希模式
       routerMode: 'hash',
-      
+
       // 自动帮屏幕滚动到最顶端
       auto2top: true,
 
@@ -58,8 +91,9 @@
         placeholder: '🔍 探索全站知识...',
         noData: '未找到相关文章记录 😢',
         depth: 4, // 检索标题的粒度
+        namespace: 'babiq-knowledge-v1', // 极其重要：强制隔离并刷新被污染的旧缓存
       },
-      
+
       // 核心要求：暗黑/明亮 主题引擎的配置
       darklightTheme: {
         defaultTheme: 'light', // 按照要求，全局默认清爽明亮色调
@@ -70,13 +104,78 @@
         dark: {
           accent: '#42b983', // 暗黑下的超链接绿
         }
-      }
+      },
+
+      // 底部翻页配置
+      pagination: {
+        previousText: '上一篇',
+        nextText: '下一篇',
+        crossChapter: true,
+        crossChapterText: true,
+      },
+
+      // 字数统计算法配置
+      count: {
+        countable: true,
+        fontsize: '0.9em',
+        color: 'rgb(90,90,90)',
+        language: 'chinese'
+      },
+
+      // 右侧悬浮目录配置
+      toc: {
+        tocMaxLevel: 5,
+        target: 'h2, h3',
+        ignoreHeaders: ['<!-- {docsify-ignore} -->', '<!-- {docsify-ignore-all} -->']
+      },
+
+      // 页脚版权配置
+      footer: {
+        copy: '<span>&copy; 2026 BaBiQ888 | 构建于 GitHub Pages</span>',
+        auth: '',
+        pre: '<hr/>',
+        style: 'text-align: right;',
+        class: 'className',
+      },
+
+      // 自定义运行时插件：将夜间模式节点直接移入顶部导航栏内部
+      plugins: [
+        function (hook, vm) {
+          hook.doneEach(function () {
+            var moveBtnAndCleanup = function () {
+              // 强制只选择桌面的主导航栏（防止选到 sidebar 里的移动端备份）
+              var nav = document.querySelector('body > nav.app-nav');
+              var btns = document.querySelectorAll('#docsify-darklight-theme');
+
+              // 导航栏如果因为异步加载还没挂载完毕，等 50ms 再试
+              if (!nav) {
+                setTimeout(moveBtnAndCleanup, 50);
+                return;
+              }
+
+              if (btns.length > 0) {
+                // 将真实的切换按钮追加到导航栏末尾
+                var themeBtn = btns[0];
+                nav.appendChild(themeBtn);
+
+                // docsify-darklight-theme 会在每次路由切换时粗暴地向正文前方追加一个新图标
+                // 因为我们已经把它移到了导航栏，所以正文里生成的冗余图标必须全部清理掉
+                for (let i = 1; i < btns.length; i++) {
+                  btns[i].remove();
+                }
+              }
+            };
+            // 启动防抖挂载
+            setTimeout(moveBtnAndCleanup, 10);
+          });
+        }
+      ]
     }
   </script>
-  
+
   <!-- 1. Docsify 运行时容器框架 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  
+
   <!-- 2. 全量现代插件生态 (Plugins) -->
   <!-- 静态全站搜索引擎 -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
@@ -88,5 +187,25 @@
   <script src="//unpkg.com/docsify-mermaid@2.0.1/dist/docsify-mermaid.js"></script>
   <!-- 日月全自动切换器核心脚本 (UI Toggler Switch) -->
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js" type="text/javascript"></script>
+
+  <!-- 分页插件 -->
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- 字数统计插件 -->
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+  <!-- 悬浮目录插件 -->
+  <script src="//unpkg.com/docsify-plugin-toc@1.3.1/dist/docsify-plugin-toc.min.js"></script>
+  <!-- 页脚插件 -->
+  <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
+
+  <!-- Prismjs 代码高亮扩展组件 -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-solidity.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
 </body>
+
 </html>

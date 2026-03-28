@@ -11,4 +11,4 @@
 ---
 
 ## 📝 文章列表
-- [基于 FHEVM 的全同态加密 ERC20 隐私代币实现](./fhe-erc20-privacy.md)
+- [基于 FHEVM 的全同态加密 ERC20 隐私代币实现](/docs/02-backend/fhe-erc20-privacy.md)

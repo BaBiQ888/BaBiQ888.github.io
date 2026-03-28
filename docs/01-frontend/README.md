@@ -11,4 +11,4 @@
 ---
 
 ## 📝 文章列表
-- [基于 React + Vite 的在线图片编辑器开发实战](./online-image-editor.md)
+- [基于 React + Vite 的在线图片编辑器开发实战](/docs/01-frontend/online-image-editor.md)
